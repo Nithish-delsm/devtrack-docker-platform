@@ -25,9 +25,11 @@ fully containerised with Docker Compose and deployed on AWS EC2 (Amazon Linux 20
 ## Phase 2: FastAPI application
 - [x] Python venv created, FastAPI 0.128.8 and Uvicorn 0.39.0 installed
 - [x] /health endpoint written and tested with curl
+- [x] Task endpoints (POST/GET /tasks, GET /tasks/{id}) and pinned requirements.txt
 
 ## Phase 3: Dockerfile and image building
-- [ ] Not started
+- [x] .dockerignore and Dockerfile written
+- [x] Image built and inspected (168MB, layer cache verified)
 
 ## Phases 4-15
 - [ ] 4 Container lifecycle
