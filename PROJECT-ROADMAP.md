@@ -14,7 +14,7 @@ fully containerised with Docker Compose and deployed on AWS EC2 (Amazon Linux 20
 
 ## Phase 1: Environment setup and Docker fundamentals
 - [x] Identify OS (Amazon Linux 2023)
-- [ ] Install Docker Engine (waiting for output verification)
+- [x] Install Docker Engine 25.0.14 (verified active and enabled)
 - [ ] Run Docker without sudo (docker group)
 - [ ] Install Docker Compose plugin and verify
 - [ ] Run first container (hello-world)
