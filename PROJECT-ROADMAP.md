@@ -18,6 +18,7 @@ fully containerised with Docker Compose and deployed on AWS EC2 (Amazon Linux 20
 - [x] Run Docker without sudo (docker group)
 - [x] Install Docker Compose plugin v5.7.1 and verify
 - [x] Run first container (hello-world)
+- [x] Container lifecycle challenge: run, curl, logs, exec, stop, rm (nginx web1)
 - [x] Install Git, create project folder, git init
 - [x] First commit pushed to GitHub (SSH key auth verified)
 
