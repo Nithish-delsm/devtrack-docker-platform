@@ -15,11 +15,11 @@ fully containerised with Docker Compose and deployed on AWS EC2 (Amazon Linux 20
 ## Phase 1: Environment setup and Docker fundamentals
 - [x] Identify OS (Amazon Linux 2023)
 - [x] Install Docker Engine 25.0.14 (verified active and enabled)
-- [ ] Run Docker without sudo (docker group)
-- [ ] Install Docker Compose plugin and verify
-- [ ] Run first container (hello-world)
+- [x] Run Docker without sudo (docker group)
+- [x] Install Docker Compose plugin v5.7.1 and verify
+- [x] Run first container (hello-world)
 - [x] Install Git, create project folder, git init
-- [ ] First commit pushed to GitHub
+- [x] First commit pushed to GitHub (SSH key auth verified)
 
 ## Phase 2: FastAPI application
 - [ ] Not started
