@@ -23,7 +23,8 @@ fully containerised with Docker Compose and deployed on AWS EC2 (Amazon Linux 20
 - [x] First commit pushed to GitHub (SSH key auth verified)
 
 ## Phase 2: FastAPI application
-- [ ] Not started
+- [x] Python venv created, FastAPI 0.128.8 and Uvicorn 0.39.0 installed
+- [x] /health endpoint written and tested with curl
 
 ## Phase 3: Dockerfile and image building
 - [ ] Not started
