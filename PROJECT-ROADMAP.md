@@ -30,9 +30,10 @@ fully containerised with Docker Compose and deployed on AWS EC2 (Amazon Linux 20
 ## Phase 3: Dockerfile and image building
 - [x] .dockerignore and Dockerfile written
 - [x] Image built and inspected (168MB, layer cache verified)
+- [x] Ran image as container on 127.0.0.1:8000, checked user/python/memory (runs as root, fix in Phase 12)
 
 ## Phases 4-15
-- [ ] 4 Container lifecycle
+- [x] 4 Container lifecycle (exit codes, --rm, inspect, top, system df verified)
 - [ ] 5 Volumes
 - [ ] 6 Networking
 - [ ] 7 Docker Compose
