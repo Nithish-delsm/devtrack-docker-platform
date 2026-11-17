@@ -8,3 +8,4 @@
 | `"docker exec" requires at least 2 arguments` | Ran `docker exec` without container and command | `docker exec -it <container> bash` |
 | `rm: missing operand` / `stop: command not found` | Typed Linux `rm` or bare `stop` instead of `docker rm` / `docker stop` | Docker commands always start with `docker` |
 | `-p: command not found` | Typed a flag as if it were a command | Flags belong after a command, e.g. `docker run -p 8080:80 nginx` |
+| `compose build requires buildx 0.17.0 or later` on `docker compose up --build` | Compose plugin v5 needs a newer buildx plugin than the one shipped with the AL2023 docker package | Install the latest buildx binary into /usr/local/lib/docker/cli-plugins/docker-buildx and `chmod +x` it |
