@@ -40,7 +40,7 @@ fully containerised with Docker Compose and deployed on AWS EC2 (Amazon Linux 20
 - [x] 8 PostgreSQL + Redis (SQLAlchemy persistence, password-protected Redis, cache with invalidation and fallback verified)
 - [x] 9 Multi-stage build + non-root user (uid 10001) verified; image did not shrink (205MB vs 202MB)
 - [x] 10 Nginx reverse proxy (only published port; API unpublished; backend network internal)
-- [ ] 11 Health checks, logging, monitoring
+- [x] 11 Health checks, restart policy, resource limits, log rotation, OOM kill (exit 137) verified
 - [ ] 12 Container security
 - [ ] 13 AWS EC2 deployment
 - [ ] 14 Testing and troubleshooting

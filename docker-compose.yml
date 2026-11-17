@@ -1,3 +1,9 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 services:
   db:
     image: postgres:16
@@ -11,12 +17,15 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+    mem_limit: 512m
+    cpus: 1.0
+    logging: *default-logging
     restart: unless-stopped
 
   redis:
     image: redis:7-alpine
     env_file: .env
-    command: ["sh", "-c", "redis-server --appendonly yes --requirepass \"$$REDIS_PASSWORD\""]
+    command: ["sh", "-c", "redis-server --appendonly yes --maxmemory 100mb --maxmemory-policy allkeys-lru --requirepass \"$$REDIS_PASSWORD\""]
     volumes:
       - redisdata:/data
     networks:
@@ -26,6 +35,9 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+    mem_limit: 160m
+    cpus: 0.5
+    logging: *default-logging
     restart: unless-stopped
 
   api:
@@ -51,6 +63,10 @@ services:
       timeout: 3s
       retries: 5
       start_period: 10s
+    mem_limit: 384m
+    cpus: 1.0
+    pids_limit: 200
+    logging: *default-logging
     restart: unless-stopped
 
   nginx:
@@ -69,6 +85,9 @@ services:
       interval: 10s
       timeout: 3s
       retries: 5
+    mem_limit: 64m
+    cpus: 0.5
+    logging: *default-logging
     restart: unless-stopped
 
 volumes:

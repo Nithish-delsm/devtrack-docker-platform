@@ -41,3 +41,6 @@ Nginx is the only service with a published port. The API is reachable only throu
 - Compose registers service names in Docker's DNS on the shared network (db, redis, api).
 - The Redis key is deleted on create so the cached list never goes stale.
 - Code changes need `docker compose up -d --build`; a plain restart reuses the old image.
+
+## Resource limits, restart policy, logs
+`mem_limit` and `cpus` stop one container from starving the host; exceeding memory gives OOMKilled with exit code 137 (128 + SIGKILL 9). `restart: unless-stopped` revives crashed containers but respects a manual stop. The json-file log driver is capped with max-size/max-file so logs cannot fill the disk. Healthchecks chain startup: db/redis -> api -> nginx.
