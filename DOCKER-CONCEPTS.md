@@ -34,3 +34,10 @@ Passwords live in `.env` (git-ignored, chmod 600) and are passed with `env_file`
 
 ## Reverse proxy and network isolation
 Nginx is the only service with a published port. The API is reachable only through it on the `frontend` network. The `backend` network is `internal: true`, so Postgres and Redis have no route to the internet. Compose healthchecks chain the start order: db/redis -> api -> nginx.
+
+## Quiz 1 review (Phases 1-10): gaps to revisit
+- A container is a running instance of an image, not something inside it.
+- Named volumes keep data across `docker compose down`; `down -v` deletes them.
+- Compose registers service names in Docker's DNS on the shared network (db, redis, api).
+- The Redis key is deleted on create so the cached list never goes stale.
+- Code changes need `docker compose up -d --build`; a plain restart reuses the old image.
