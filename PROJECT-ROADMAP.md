@@ -38,7 +38,7 @@ fully containerised with Docker Compose and deployed on AWS EC2 (Amazon Linux 20
 - [x] 6 Networking (custom bridge network, DNS by container name, API to Postgres verified)
 - [x] 7 Docker Compose (db + api, healthcheck, depends_on, restart policy, down/up persistence verified)
 - [x] 8 PostgreSQL + Redis (SQLAlchemy persistence, password-protected Redis, cache with invalidation and fallback verified)
-- [ ] 9 Multi-stage builds
+- [x] 9 Multi-stage build + non-root user (uid 10001) verified; image did not shrink (205MB vs 202MB)
 - [ ] 10 Nginx reverse proxy
 - [ ] 11 Health checks, logging, monitoring
 - [ ] 12 Container security

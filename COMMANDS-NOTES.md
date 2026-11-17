@@ -35,3 +35,15 @@
 | `docker exec -it web1 bash` | Open an interactive shell inside a running container |
 | `docker stop web1` | Gracefully stop a container |
 | `docker rm web1` | Remove a stopped container |
+
+## Volumes, networks, Compose
+| Command | Meaning |
+|---|---|
+| `docker volume create/ls/inspect/rm NAME` | Manage named volumes |
+| `docker network create NAME` | Create a user-defined bridge network |
+| `docker compose config --quiet` | Validate the compose file |
+| `docker compose up -d --build` | Rebuild images and (re)create containers |
+| `docker compose ps / logs --tail N SERVICE` | Status and recent logs |
+| `docker compose exec SERVICE CMD` | Run a command in a service container |
+| `docker compose down` | Remove containers and network, keep volumes |
+| `curl -s -D - -o /dev/null URL` | Show only response headers |
