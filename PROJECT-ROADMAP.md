@@ -35,7 +35,7 @@ fully containerised with Docker Compose and deployed on AWS EC2 (Amazon Linux 20
 ## Phases 4-15
 - [x] 4 Container lifecycle (exit codes, --rm, inspect, top, system df verified)
 - [x] 5 Volumes (named volume + Postgres persistence verified; bind mounts not yet practised)
-- [ ] 6 Networking
+- [x] 6 Networking (custom bridge network, DNS by container name, API to Postgres verified)
 - [ ] 7 Docker Compose
 - [ ] 8 PostgreSQL + Redis
 - [ ] 9 Multi-stage builds
