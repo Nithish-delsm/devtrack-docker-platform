@@ -1,12 +1,39 @@
-from typing import List
+import time
+from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from pydantic import BaseModel
+from sqlalchemy import text
+from sqlalchemy.exc import OperationalError
+from sqlalchemy.orm import Session
 
-app = FastAPI(title="DevTrack API")
+from app.db import Base, SessionLocal, engine
+from app.models import Task
 
-# Temporary in-memory storage. Lost on every restart (PostgreSQL fixes this later).
-tasks: List[dict] = []
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Wait for the database to accept connections, then create tables.
+    for _ in range(10):
+        try:
+            Base.metadata.create_all(bind=engine)
+            break
+        except OperationalError:
+            time.sleep(2)
+    else:
+        raise RuntimeError("Database not reachable")
+    yield
+
+
+app = FastAPI(title="DevTrack API", lifespan=lifespan)
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
 class TaskCreate(BaseModel):
@@ -14,26 +41,38 @@ class TaskCreate(BaseModel):
     done: bool = False
 
 
+def to_dict(task: Task) -> dict:
+    return {"id": task.id, "title": task.title, "done": task.done}
+
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
 
 
+@app.get("/health/db")
+def health_db(db: Session = Depends(get_db)):
+    db.execute(text("SELECT 1"))
+    return {"database": "ok"}
+
+
 @app.post("/tasks", status_code=201)
-def create_task(task: TaskCreate):
-    new_task = {"id": len(tasks) + 1, **task.dict()}
-    tasks.append(new_task)
-    return new_task
+def create_task(payload: TaskCreate, db: Session = Depends(get_db)):
+    task = Task(title=payload.title, done=payload.done)
+    db.add(task)
+    db.commit()
+    db.refresh(task)
+    return to_dict(task)
 
 
 @app.get("/tasks")
-def list_tasks():
-    return tasks
+def list_tasks(db: Session = Depends(get_db)):
+    return [to_dict(t) for t in db.query(Task).order_by(Task.id).all()]
 
 
 @app.get("/tasks/{task_id}")
-def get_task(task_id: int):
-    for task in tasks:
-        if task["id"] == task_id:
-            return task
-    raise HTTPException(status_code=404, detail="Task not found")
+def get_task(task_id: int, db: Session = Depends(get_db)):
+    task = db.get(Task, task_id)
+    if task is None:
+        raise HTTPException(status_code=404, detail="Task not found")
+    return to_dict(task)
