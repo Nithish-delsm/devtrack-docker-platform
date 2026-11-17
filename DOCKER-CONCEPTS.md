@@ -31,3 +31,6 @@ Cache-aside: read Redis; on a miss read Postgres and store the result with a TTL
 
 ## Secrets
 Passwords live in `.env` (git-ignored, chmod 600) and are passed with `env_file`. They are never baked into images or committed.
+
+## Reverse proxy and network isolation
+Nginx is the only service with a published port. The API is reachable only through it on the `frontend` network. The `backend` network is `internal: true`, so Postgres and Redis have no route to the internet. Compose healthchecks chain the start order: db/redis -> api -> nginx.
