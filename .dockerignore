@@ -1,8 +1,9 @@
 .git
 .venv
-__pycache__/
-*.pyc
+**/__pycache__
+**/*.pyc
 .env
+**/.env
 *.pem
 *.key
 docs/

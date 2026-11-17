@@ -9,3 +9,4 @@
 | `rm: missing operand` / `stop: command not found` | Typed Linux `rm` or bare `stop` instead of `docker rm` / `docker stop` | Docker commands always start with `docker` |
 | `-p: command not found` | Typed a flag as if it were a command | Flags belong after a command, e.g. `docker run -p 8080:80 nginx` |
 | `compose build requires buildx 0.17.0 or later` on `docker compose up --build` | Compose plugin v5 needs a newer buildx plugin than the one shipped with the AL2023 docker package | Install the latest buildx binary into /usr/local/lib/docker/cli-plugins/docker-buildx and `chmod +x` it |
+| `__pycache__` copied into image even though `.dockerignore` listed `__pycache__/` | In .dockerignore a bare pattern only matches the top-level folder (unlike .gitignore); nested folders need `**/` | Use `**/__pycache__` and `**/*.pyc`, rebuild, verify with `docker run --rm IMAGE ls -A /code/app` |
