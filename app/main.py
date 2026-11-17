@@ -1,12 +1,13 @@
 import time
 from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Response
 from pydantic import BaseModel
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import Session
 
+from app.cache import TASKS_KEY, cache_delete, cache_get, cache_set
 from app.db import Base, SessionLocal, engine
 from app.models import Task
 
@@ -62,12 +63,24 @@ def create_task(payload: TaskCreate, db: Session = Depends(get_db)):
     db.add(task)
     db.commit()
     db.refresh(task)
+    cache_delete(TASKS_KEY)  # the cached list is now stale
     return to_dict(task)
 
 
 @app.get("/tasks")
-def list_tasks(db: Session = Depends(get_db)):
-    return [to_dict(t) for t in db.query(Task).order_by(Task.id).all()]
+def list_tasks(response: Response, db: Session = Depends(get_db)):
+    cached, redis_ok = cache_get(TASKS_KEY)
+    if cached is not None:
+        response.headers["X-Cache"] = "HIT"
+        return cached
+
+    tasks = [to_dict(t) for t in db.query(Task).order_by(Task.id).all()]
+    if redis_ok:
+        cache_set(TASKS_KEY, tasks)
+        response.headers["X-Cache"] = "MISS"
+    else:
+        response.headers["X-Cache"] = "BYPASS"
+    return tasks
 
 
 @app.get("/tasks/{task_id}")

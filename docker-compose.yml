@@ -32,14 +32,17 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    image: devtrack-api:0.2
+    image: devtrack-api:0.3
     env_file: .env
     environment:
       POSTGRES_HOST: db
+      REDIS_HOST: redis
     ports:
       - "127.0.0.1:8000:8000"
     depends_on:
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     networks:
       - backend
